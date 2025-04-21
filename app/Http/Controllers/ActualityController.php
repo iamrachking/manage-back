@@ -16,7 +16,7 @@ class ActualityController extends Controller
 
     public function index()
     {
-        return view('actualities.index', ['actualities' => Actuality::paginate(25)]);
+        return view('actualities.index', ['actualities' => Actuality::paginate(25)]) ;
     }
 
 
