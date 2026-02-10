@@ -19,12 +19,14 @@ class CoverUpdateRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
+   public function rules(): array
     {
         return [
             'title' => ['required'],
-            "description" => ['required'],
-            "category_id" => ["required"],
+            'description' => ['required'],
+            'category_id' => ['required'],
+            'published_at' => ['nullable', 'date'],
+            'cover' => ['nullable', 'mimes:jpg,bmp,png,jpeg', 'max:2048'], 
             'additional_images.*' => ['nullable', 'image', 'mimes:jpg,bmp,png,jpeg', 'max:2048'],
         ];
     }

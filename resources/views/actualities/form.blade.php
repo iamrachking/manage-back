@@ -4,17 +4,11 @@
             {{ __('Dashboard') }}
         </h2>
     </x-slot>
-
     @section('title', $actuality->exists ? 'Modifier une actualité' : 'Créer une actualité')
-
     <div class="container mt-5">
         <h1 class="pb-3 fw-bold h3">@yield('title')</h1>
-
         <form class="vstack gap-2" enctype="multipart/form-data"
             action="{{ route($actuality->exists ? 'actuality.update' : 'actuality.store', $actuality) }}" method="POST">
-            {{-- @php 
-                dd($actuality)
-            @endphp --}}
             @csrf
             
             @method($actuality->exists ? 'PUT' : 'POST')
@@ -33,9 +27,17 @@
                     </x-forms.select>
                 </div>
                 <div class="col-md-6">
+                    <x-forms.input 
+                        type="date" 
+                        name='published_at' 
+                        :value="$actuality->published_at ? $actuality->published_at->format('Y-m-d') : ''" 
+                        label='Date de publication' 
+                    />
+                </div>
+                <div class="col-md-6">
                     <x-forms.inputfile type="file"  name='cover' :value="$actuality->cover_path" label='Importez une image(Couverture)'   />
                     @if ($actuality->cover_path)
-                        <div class="mt-2 w-20 h-20 overflow-hidden rounded-lg border border-gray-300"style="display: flex; justify-content: center;">
+                        <div class="mt-2 w-20 h-20 overflow-hidden rounded-lg border border-gray-300" style="display: flex; justify-content: center;">
                             <img src="{{ asset("/storage/actualities/covers/" . $actuality->cover_path) }}" alt="Image actuelle"
                                 class="w-full h-full object-cover" style="width: 100%; height: auto;">
                         </div>
@@ -54,12 +56,11 @@
                     @endif
                     </div>
                 </div>
-            </div>
-                <div class="col-md-12 ">
+                <div class="col-md-12">
                     <x-forms.textarea name='description' :value="$actuality->description" label='Descriptions' />
                 </div>
             </div>
-            <div class="text-center mt-5"  style="    padding-bottom: 50px; ">
+            <div class="text-center mt-5" style="padding-bottom: 50px;">
                 <button class="btn btn-primary w-25">
                     @if ($actuality->exists)
                         Modifier
