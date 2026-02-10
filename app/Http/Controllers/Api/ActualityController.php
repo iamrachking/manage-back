@@ -9,18 +9,20 @@ use Illuminate\Http\Request;
 
 class ActualityController extends Controller
 {
-    public function index(){
-
-        $actualities = Actuality::all();
+    public function index()
+    {
+        $actualities = Actuality::orderByRaw('COALESCE(published_at, created_at) DESC')->get();
+        
         if ($actualities) {
             return $this->success(ActualityCollection::collection($actualities));
         }
 
         return $this->fail();
     }
+    
     public function show(Actuality $actuality)
     {
-        if ($actuality->exists()){
+        if ($actuality->exists()) {
             return $this->success(new ActualityCollection($actuality));
         }
 

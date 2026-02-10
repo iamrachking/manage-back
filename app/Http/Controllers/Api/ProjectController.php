@@ -9,17 +9,23 @@ use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
-    public function index(){
-     $projects = Project::all();
-        if($projects){
+    public function index()
+    {
+        $projects = Project::latest()->get();
+        
+        if ($projects) {
             return $this->success(ProjectCollection::collection($projects));
         }
+        
         return $this->fail();
     }
-    public function show(Project $project){
-        if($project->exists()){
+    
+    public function show(Project $project)
+    {
+        if ($project->exists()) {
             return $this->success(new ProjectCollection($project));
         }
+        
         return $this->fail();
     }
 }
